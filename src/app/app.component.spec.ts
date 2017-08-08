@@ -1,12 +1,14 @@
-import { TestBed, inject, async } from '@angular/core/testing';
-
+import { TestBed, inject, async, ComponentFixture } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { ProgressbarService } from './progressbar.service';
 
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
   let app: AppComponent;
-  let compiled: any;
+  let compiled: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,11 +22,9 @@ describe('AppComponent', () => {
         ProgressbarService
       ]
     }).compileComponents().then(() => {
-      const fixture = TestBed.createComponent(AppComponent);
+      fixture = TestBed.createComponent(AppComponent);
       app = fixture.componentInstance;
-
-      fixture.detectChanges();
-      compiled = fixture.debugElement.nativeElement;
+      compiled = fixture.debugElement;
     });
   }));
 
@@ -33,11 +33,31 @@ describe('AppComponent', () => {
   }));
 
   it('should render title in a h2 tag', async(() => {
-    expect(compiled.querySelector('h2').textContent).toEqual('Progress Bars');
+    expect(compiled.nativeElement.querySelector('h2').textContent).toEqual('Progress Bars');
   }));
 
   it('should render button group label in a strong tag with uppercase', async(() => {
-    expect(compiled.querySelector('strong').textContent).toMatch('INCREMENT / DECREMENT BY VALUE');
+    expect(compiled.nativeElement.querySelector('strong').textContent).toMatch('INCREMENT / DECREMENT BY VALUE');
+  }));
+
+  it('should render 3 progressbars', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(()=>{
+        app.bars = [73,38,45];
+        fixture.detectChanges();
+
+        expect(compiled.queryAll(By.css('div.progress-bar')).length).toBe(3);
+      });
+  }));
+
+  it('should render 6 buttons', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(()=>{
+        app.buttons = [23,18,-17,-38,45,60];
+        fixture.detectChanges();
+
+        expect(compiled.queryAll(By.css('button.btn')).length).toBe(6);
+      });
   }));
 
   describe('onSelectProgressBar', () => {
@@ -101,12 +121,41 @@ describe('AppComponent', () => {
       expect(app.bars[app.activeProgressBar]).toEqual(0);
     });
 
-    it('the value of the selected progressbar should not exceed the limit', () => {
+    it('the value of the selected progressbar should exceed the limit', () => {
       let value = 150;
       let activated = 1;
       app.activeProgressBar = activated;
       app.onClickValueButton(value);
-      expect(app.bars[app.activeProgressBar]).toEqual(app.limit);
+      expect(app.bars[app.activeProgressBar]).toBeGreaterThan(app.limit);
+    });
+  });
+
+  describe('fnComputeBarPercentage', () => {
+    beforeEach(() => {
+      app.buttons = [44,14,-12,-10];
+      app.bars = [73,38,45,40];
+      app.limit = 140;
+      app.payload = '{"buttons":' + JSON.stringify(app.buttons) + ',"bars":' + JSON.stringify(app.bars) + ',"limit":' + app.limit + '}';
+    });
+
+    it('should be less than 100 percent', () => {
+      let value = 130;
+      expect(app.fnComputeBarPercentage(value)).toBeLessThan(100);
+    });
+
+    it('should be 100 percent', () => {
+      let value = 140;
+      expect(app.fnComputeBarPercentage(value)).toEqual(100);
+    });
+
+    it('should be 0 percent, if the value is zero', () => {
+      let value = 0;
+      expect(app.fnComputeBarPercentage(value)).toEqual(0);
+    });
+
+    it('should be 0 percent, if the value is negative', () => {
+      let value = -10;
+      expect(app.fnComputeBarPercentage(value)).toEqual(0);
     });
   });
 });

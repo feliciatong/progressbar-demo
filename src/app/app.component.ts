@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
         this.bars = data.bars;
         this.limit = data.limit;
         this.buttons = data.buttons;
+        this.activeProgressBar = 0;
       },
       error => {
         console.log("API call failed.");
@@ -34,6 +35,14 @@ export class AppComponent implements OnInit {
   }
 
   constructor(private progressbarService: ProgressbarService) {
+  }
+
+  // functions
+  public fnComputeBarPercentage(value: number): any {
+    if (value<=0) {
+      return 0;
+    }
+    return value / this.limit * 100;
   }
 
   // events
@@ -52,9 +61,7 @@ export class AppComponent implements OnInit {
       currentVal += value;
       if (currentVal < 0) {
         currentVal = 0;
-      } else if (currentVal > this.limit) {
-        currentVal = this.limit;
-      }
+      } 
       this.bars[this.activeProgressBar] = currentVal;
     }
   }
