@@ -1,0 +1,22 @@
+<div class="main container">
+  <h2>Progress Bars</h2>
+  <div class="well"><label>{{payload}}</label></div>
+  <div *ngFor="let bar of bars; let idx = index" class="row">
+    <div class="col-xs-1 text-center">
+      <input type="radio" value="option1" [checked]="idx==activeProgressBar" (click)="onSelectProgressBar(idx)">
+    </div>
+    <div class="progress col-xs-11">
+      <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+        [ngClass]="{'progress-bar-success': limit>bar, 'progress-bar-danger': limit<=bar, 'active': idx==activeProgressBar}"
+        [ngStyle]="{'width': bar +'%'}">
+      </div>
+      <span>{{bar}}%</span>
+    </div>
+  </div>
+  <div class="control-set text-center">
+    <strong class="btn-label">INCREMENT / DECREMENT BY VALUE</strong>
+    <div class="btn-group btn-group-lg" role="group">
+      <button *ngFor="let button of buttons" type="button" class="btn btn-default" (click)="onClickValueButton(button)">{{button}}</button>
+    </div>
+  </div>
+</div>

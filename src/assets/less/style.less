@@ -1,0 +1,45 @@
+.main {
+   margin-top:10px;
+   .row {
+       margin: 0;
+       .col-xs-1,
+       .col-xs-11 {
+           padding: 0;
+       }
+   }
+}
+
+div.progress {
+    position: relative;
+    div.progress-bar {
+        z-index: 1;
+        position: absolute;
+    }
+    span {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        text-align: center;
+        width: 100%;
+        color: #333;
+    }
+}
+
+div.control-set {
+    margin-top: 5%;
+    strong.btn-label {
+        margin-right: 1%;
+        color: #959595;
+        font-size: 12px;
+    }
+    @media only screen and (max-width : 480px) {
+        strong.btn-label {
+             margin-right: 0;
+        }
+    }
+    @media(min-width:768px) {
+        button {
+            min-width: 65px;
+        }
+    }
+}
