@@ -1,5 +1,4 @@
-# Front End Assignment - Progress Bars
-## Requirements
+## Progress Bars ([demo](http://demo.m00moo.com))
 - Must read data from the endpoint
 - Multiple bars
 - One set of controls that can control each bar on the fly
@@ -12,7 +11,7 @@
 - Version control (git)
 
 ## Endpoint
-Consume [endpoint] (http://pb-api.herokuapp.com/bars)
+Consume [endpoint](http://pb-api.herokuapp.com/bars)
 > Example structure from the endpoint:
 ```
 {

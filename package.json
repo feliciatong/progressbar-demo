@@ -1,6 +1,6 @@
 {
-  "name": "assignment",
-  "version": "0.0.0",
+  "name": "progressbar-demo",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
