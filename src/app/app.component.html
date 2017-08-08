@@ -8,7 +8,7 @@
     <div class="progress col-xs-11">
       <div class="progress-bar progress-bar-striped" role="progressbar" [attr.aria-valuenow]="fnComputeBarPercentage(bar)" aria-valuemin="0" aria-valuemax="100" 
         [ngClass]="{'progress-bar-success': limit>bar, 'progress-bar-danger': limit<=bar, 'active': idx==activeProgressBar}"
-        [ngStyle]="{width: fnComputeBarPercentage(bar) +'%'">
+        [ngStyle]="{width: fnComputeBarPercentage(bar) +'%'}">
       </div>
       <span>{{bar}}%</span>
     </div>
