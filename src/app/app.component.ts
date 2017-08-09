@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgressbarService } from './progressbar.service';
+import { trigger, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  animations: [
+    trigger('progressChange',[
+      transition('* => *', animate('40ms ease-in-out'))
+    ])
+  ]
 })
 export class AppComponent implements OnInit {
   public payload: string;
@@ -11,6 +17,7 @@ export class AppComponent implements OnInit {
   public limit: number;
   public buttons: any;
   public activeProgressBar: number;
+  public barsWidth: any;
 
   ngOnInit(): void {
     this.payload = "";
@@ -18,6 +25,7 @@ export class AppComponent implements OnInit {
     this.limit = 100;
     this.buttons = [];
     this.activeProgressBar = -1;
+    this.barsWidth = [];
 
     this.progressbarService.getBars()
       .subscribe(
@@ -64,5 +72,9 @@ export class AppComponent implements OnInit {
       } 
       this.bars[this.activeProgressBar] = currentVal;
     }
+  }
+
+  public onProgressChangeCompleted(value: number, index: number): void {
+    this.barsWidth[index] = value;
   }
 }
