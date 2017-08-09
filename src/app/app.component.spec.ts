@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { ProgressbarService } from './progressbar.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -16,7 +17,7 @@ describe('AppComponent', () => {
         AppComponent
       ],
       imports: [
-        HttpModule
+        HttpModule, BrowserAnimationsModule
       ],
       providers: [
         ProgressbarService
@@ -156,6 +157,28 @@ describe('AppComponent', () => {
     it('should be 0 percent, if the value is negative', () => {
       let value = -10;
       expect(app.fnComputeBarPercentage(value)).toEqual(0);
+    });
+  });
+
+  describe('onProgressChangeCompleted', () => {
+    beforeEach(() => {
+      app.barsWidth = [45];
+    });
+    
+    it('should have new element inserted into the array', () => {
+      expect(app.barsWidth.length).toBe(1);
+      app.onProgressChangeCompleted(60, 1);
+      expect(app.barsWidth.length).toBe(2);
+    });
+
+    it('should be 2 elements [45, 60]', () => {
+      app.onProgressChangeCompleted(60, 1);
+      expect(app.barsWidth).toEqual([45,60]);
+    });
+
+    it('should be update the element value if exist', () => {
+      app.onProgressChangeCompleted(84, 0);
+      expect(app.barsWidth).toEqual([84]);
     });
   });
 });
