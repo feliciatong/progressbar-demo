@@ -7,7 +7,7 @@
     </div>
     <div class="progress col-xs-11">
       <div class="progress-bar progress-bar-striped" role="progressbar" [attr.aria-valuenow]="fnComputeBarPercentage(bar)" aria-valuemin="0" aria-valuemax="100" 
-        [@progressChange]="bar"
+        [@progressChange]="(idx + 1) + '' + bar"
         (@progressChange.done)="onProgressChangeCompleted(bar, idx)"
         [ngClass]="{'progress-bar-success': limit>=bar, 'progress-bar-danger': limit<bar, 'active': idx==activeProgressBar}"
         [ngStyle]="{width: fnComputeBarPercentage(barsWidth[idx]) +'%'}">
